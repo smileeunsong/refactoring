@@ -8,7 +8,7 @@ export function statement(invoice, plays) {
     minimumFractionDigits: 2,
   }).format;
 
-  function amountFor(aPerformance, play) {
+  function amountFor(aPerformance) {
     // <- 값이 바뀌지 않는 변수는 매개변수로 전달
     let result = 0; // <- 변수를 초기화하는 코드, 명확한 이름으로 변경
 
@@ -40,7 +40,7 @@ export function statement(invoice, plays) {
   }
 
   for (let perf of invoice.performances) {
-    let thisAmount = amountFor(perf, playFor(perf)); // <- 추출한 함수를 이용
+    let thisAmount = amountFor(perf); // <- 추출한 함수를 이용
 
     // 포인트를 적립한다.
     volumeCredits += Math.max(perf.audience - 30, 0);
