@@ -12,7 +12,7 @@ export function statement(invoice, plays) {
     // <- 값이 바뀌지 않는 변수는 매개변수로 전달
     let result = 0; // <- 변수를 초기화하는 코드, 명확한 이름으로 변경
 
-    switch (play.type) {
+    switch (playFor(aPerformance).type) {
       case "tragedy":
         result = 40000;
 
@@ -30,7 +30,7 @@ export function statement(invoice, plays) {
         break;
 
       default:
-        throw new Error(`알 수 없는 장르: ${play.type}`);
+        throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
     }
     return result; // <- 함수 안에서 값이 바뀌는 변수 반환
   }
