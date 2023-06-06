@@ -1,6 +1,6 @@
 export function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0;
+
   let result = `청구내역 (고객명: ${invoice.customer})\n`;
 
   function amountFor(aPerformance) {
@@ -44,24 +44,33 @@ export function statement(invoice, plays) {
     return result;
   }
 
-  function format(aNumber) {
+  function usd(aNumber) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
-    }).format(aNumber);
+    }).format(aNumber / 100);
+  }
+
+  function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+      volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
   }
 
   for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf); // <- 추출한 함수를 이용해 값을 누적
-
     // 청구 내역을 출력한다.
-    result += `${playFor(perf).name}: ${format(amountFor(perf) / 100)} ${
+    result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${
       perf.audience
     }석\n`;
     totalAmount += amountFor(perf);
   }
-  result += `총액: ${format(totalAmount / 100)}\n`;
+
+  let volumeCredits = totalVolumeCredits();
+
+  result += `총액: ${usd(totalAmount)}\n`;
   result += `적립 포인트: ${volumeCredits}점\n`;
 
   return result;
