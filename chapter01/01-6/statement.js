@@ -1,14 +1,18 @@
 export function statement(invoice, plays) {
+  return renderPlainText(createStatementData(invoice, plays));
+}
+
+function createStatementData(invoice, plays) {
   const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalAmount = totalAmount(statementData);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-  return renderPlainText(statementData, plays); // <- 중간 데이터 구조를 인수로 전달
+  return statementData;
 
   function enrichPerformance(aPerformance) {
-    const result = Object.assign({}, aPerformance); // 얕은 복사 수행
-    result.play = playFor(result); // 중간 데이터에 연극 정보를 저장
+    const result = Object.assign({}, aPerformance);
+    result.play = playFor(result);
     result.amount = amountFor(result);
     result.volumeCredits = volumeCreditsFor(result);
     return result;
@@ -19,8 +23,7 @@ export function statement(invoice, plays) {
   }
 
   function amountFor(aPerformance) {
-    // <- 값이 바뀌지 않는 변수는 매개변수로 전달
-    let result = 0; // <- 변수를 초기화하는 코드, 명확한 이름으로 변경
+    let result = 0;
 
     switch (aPerformance.play.type) {
       case "tragedy":
@@ -42,7 +45,7 @@ export function statement(invoice, plays) {
       default:
         throw new Error(`알 수 없는 장르: ${aPerformance.play.type}`);
     }
-    return result; // <- 함수 안에서 값이 바뀌는 변수 반환
+    return result;
   }
 
   function volumeCreditsFor(aPerformance) {
@@ -56,24 +59,15 @@ export function statement(invoice, plays) {
   }
 
   function totalAmount(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.amount;
-    }
-    return result;
+    return data.performances.reduce((total, p) => total + p.amount, 0);
   }
 
   function totalVolumeCredits(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.volumeCredits;
-    }
-    return result;
+    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
   }
 }
 
 function renderPlainText(data, plays) {
-  console.log(data);
   let result = `청구내역 (고객명: ${data.customer})\n`;
   for (let perf of data.performances) {
     result += `${perf.play.name}: ${usd(perf.amount)} ${perf.audience}석\n`;
