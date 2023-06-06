@@ -1,5 +1,19 @@
 export function statement(invoice, plays) {
+  return renderPlainText(invoice, plays);
+}
+
+function renderPlainText(invoice, plays) {
   let result = `청구내역 (고객명: ${invoice.customer})\n`;
+  for (let perf of invoice.performances) {
+    result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${
+      perf.audience
+    }석\n`;
+  }
+
+  result += `총액: ${usd(totalAmount())}\n`;
+  result += `적립 포인트: ${totalVolumeCredits()}점\n`;
+
+  return result;
 
   function amountFor(aPerformance) {
     // <- 값이 바뀌지 않는 변수는 매개변수로 전달
@@ -65,16 +79,4 @@ export function statement(invoice, plays) {
     }
     return result;
   }
-
-  for (let perf of invoice.performances) {
-    // 청구 내역을 출력한다.
-    result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${
-      perf.audience
-    }석\n`;
-  }
-
-  result += `총액: ${usd(totalAmount())}\n`;
-  result += `적립 포인트: ${totalVolumeCredits()}점\n`;
-
-  return result;
 }
