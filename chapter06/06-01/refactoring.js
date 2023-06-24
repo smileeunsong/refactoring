@@ -1,27 +1,29 @@
 import Clock from "./util/Clock.js";
 
 export function printOwing(invoice) {
-  let outstanding = 0;
   let result = "";
-
   result += printBanner();
+  const outstanding = calculateOutstanding(invoice);
+  recordDueDate(invoice);
+  result += printDetails(invoice, outstanding);
+  return result;
+}
 
-  // 미해결 채무(outstanding)를 계산한다.
+function calculateOutstanding(invoice) {
+  let result = 0;
   for (const o of invoice.orders) {
-    outstanding += o.amount;
+    result += o.amount;
   }
+  return result;
+}
 
-  // 마감일(dueDate)을 기록한다.
+function recordDueDate(invoice) {
   const today = Clock.today;
   invoice.dueDate = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate() + 30
   );
-
-  result += printDetails(invoice, outstanding);
-
-  return result;
 }
 
 function printDetails(invoice, outstanding) {
