@@ -1,0 +1,4 @@
+{
+  "customer": "Adam",
+  "orders": [{ "amount": 1000 }, { "amount": 2000 }, { "amount": 3000 }]
+}
