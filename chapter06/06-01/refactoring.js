@@ -19,10 +19,13 @@ export function printOwing(invoice) {
     today.getDate() + 30
   );
 
-  // 세부 사항을 출력한다.
-  result += `고객명: ${invoice.customer}\n`;
-  result += `채무액: ${outstanding}\n`;
-  result += `마감일: ${invoice.dueDate.toLocaleDateString()}\n`;
+  printDetails();
+
+  function printDetails() {
+    result += `고객명: ${invoice.customer}\n`;
+    result += `채무액: ${outstanding}\n`;
+    result += `마감일: ${invoice.dueDate.toLocaleDateString()}\n`;
+  }
 
   function printBanner() {
     result += `***********************\n`;
