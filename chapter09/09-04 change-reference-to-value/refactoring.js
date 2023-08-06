@@ -8,7 +8,7 @@ class Person {
   }
 
   set officeAreaCode(arg) {
-    this._telephoneNumber.areaCode = arg;
+    this._telephoneNumber = new TelephoneNumber(arg, this.officeNumber);
   }
 
   get officeNumber() {
@@ -16,24 +16,26 @@ class Person {
   }
 
   set officeNumber(arg) {
-    this._telephoneNumber.number = arg;
+    this._telephoneNumber = new TelephoneNumber(this.officeAreaCode, arg);
   }
 }
 
 class TelephoneNumber {
-  get areaCode() {
-    return this._areaCode;
+  constructor(areaCode, number) {
+    this._areaCode = areaCode;
+    this._number = number;
   }
 
-  set areaCode(arg) {
-    this._areaCode = arg;
+  get areaCode() {
+    return this._areaCode;
   }
 
   get number() {
     return this._number;
   }
 
-  set number(arg) {
-    this._number = arg;
+  equals(other) {
+    if (!(other instanceof TelephoneNumber)) return false;
+    return this.areaCode === other.areaCode && this.number === other.number;
   }
 }
