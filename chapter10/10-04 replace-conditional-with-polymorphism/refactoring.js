@@ -29,7 +29,7 @@ class Bird {
       case "EuropeanSwallow":
         throw new Error("Should not reach here");
       case "AfricanSwallow":
-        return this.numberOfCoconuts > 2 ? "tired" : "average";
+        throw new Error("Should not reach here");
       case "NorwegianBlueParrot":
         return this.voltage > 100 ? "scorched" : "beautiful";
       default:
@@ -57,6 +57,10 @@ class EuropeanSwallow extends Bird {
   }
 }
 
-class AfricanSwallow extends Bird {}
+class AfricanSwallow extends Bird {
+  get plumage() {
+    return this.numberOfCoconuts > 2 ? "tired" : "average";
+  }
+}
 
 class NorwegianBlueParrot extends Bird {}
