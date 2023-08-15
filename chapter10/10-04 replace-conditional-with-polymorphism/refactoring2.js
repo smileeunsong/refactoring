@@ -1,10 +1,10 @@
-function rating(vayage, history) {
-  return createRating(vayage, history).value;
+function rating(voyage, history) {
+  return createRating(voyage, history).value;
 }
 
 class Rating {
-  constructor(vayage, history) {
-    this._vayage = vayage;
+  constructor(voyage, history) {
+    this._voyage = voyage;
     this._history = history;
   }
 
@@ -18,9 +18,9 @@ class Rating {
 
   get voyageRisk() {
     let result = 1;
-    if (this._vayage.length > 4) result += 2;
-    if (this._vayage.length > 8) result += this._vayage.length - 8;
-    if (["china", "east-indies"].includes(this._vayage.zone)) result += 4;
+    if (this._voyage.length > 4) result += 2;
+    if (this._voyage.length > 8) result += this._voyage.length - 8;
+    if (["china", "east-indies"].includes(this._voyage.zone)) result += 4;
     return Math.max(result, 0);
   }
 
@@ -33,16 +33,22 @@ class Rating {
 
   get voyageProfitFactor() {
     let result = 2;
-    if (this._vayage.zone === "china") result += 1;
-    if (this._vayage.zone === "east-indies") result += 1;
-    if (this._vayage.zone === "china" && this.hasChinaHistory) {
+    if (this._voyage.zone === "china") result += 1;
+    if (this._voyage.zone === "east-indies") result += 1;
+    result += this.voyageAndHistoryLengthFactor;
+    return result;
+  }
+
+  get voyageAndHistoryLengthFactor() {
+    let result = 0;
+    if (this._voyage.zone === "china" && this.hasChinaHistory) {
       result += 3;
       if (this._history.length > 10) result += 1;
-      if (this._vayage.length > 12) result += 1;
-      if (this._vayage.length > 18) result -= 1;
+      if (this._voyage.length > 12) result += 1;
+      if (this._voyage.length > 18) result -= 1;
     } else {
       if (this._history.length > 8) result += 1;
-      if (this._vayage.length > 14) result -= 1;
+      if (this._voyage.length > 14) result -= 1;
     }
     return result;
   }
@@ -59,10 +65,10 @@ class ExperiencedChinaRating extends Rating {
   }
 }
 
-function createRating(vayage, history) {
-  if (vayage.zone === "china" && history.some((v) => "china" === v.zone))
-    return new ExperiencedChinaRating(vayage, history);
-  else return new Rating(vayage, history);
+function createRating(voyage, history) {
+  if (voyage.zone === "china" && history.some((v) => "china" === v.zone))
+    return new ExperiencedChinaRating(voyage, history);
+  else return new Rating(voyage, history);
 }
 
 const voyage = { zone: "west-indies", length: 10 };
