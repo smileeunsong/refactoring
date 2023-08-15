@@ -36,14 +36,12 @@ class Rating {
     if (this._voyage.zone === "china") result += 1;
     if (this._voyage.zone === "east-indies") result += 1;
     result += this.historyProfitFactor;
-    result += this.voyageAndHistoryLengthFactor;
+    result += this.voyageLengthFactor;
     return result;
   }
 
-  get voyageAndHistoryLengthFactor() {
-    let result = 0;
-    if (this._voyage.length > 14) result -= 1;
-    return result;
+  get voyageLengthFactor() {
+    return this._voyage.length > 14 ? -1 : 0;
   }
 
   get historyLengthFactor() {
@@ -61,7 +59,7 @@ class ExperiencedChinaRating extends Rating {
     return Math.max(result, 0);
   }
 
-  get voyageAndHistoryLengthFactor() {
+  get voyageLengthFactor() {
     let result = 0;
     result += 3;
     if (this._voyage.length > 12) result += 1;
