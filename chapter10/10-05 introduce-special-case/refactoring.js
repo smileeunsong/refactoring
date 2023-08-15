@@ -31,18 +31,18 @@ function isUnknown(arg) {
 const aCustomer = site.customer;
 // ... lots of intervening code ...
 let customerName;
-if (aCustomer === "unknown") customerName = "occupant";
+if (isUnknown(aCustomer)) customerName = "occupant";
 else customerName = aCustomer.name;
 
 // client 2...
-const plan =
-  aCustomer === "unknown" ? registry.billingPlans.basic : aCustomer.billingPlan;
+const plan = isUnknown(aCustomer)
+  ? registry.billingPlans.basic
+  : aCustomer.billingPlan;
 
 // client 3...
-if (aCustomer !== "unknown") aCustomer.billingPlan = newPlan;
+if (!isUnknown(aCustomer)) aCustomer.billingPlan = newPlan;
 
 // client 4...
-const weeksDelinquent =
-  aCustomer === "unknown"
-    ? 0
-    : aCustomer.paymentHistory.weeksDelinquentInLastYear;
+const weeksDelinquent = isUnknown(aCustomer)
+  ? 0
+  : aCustomer.paymentHistory.weeksDelinquentInLastYear;
