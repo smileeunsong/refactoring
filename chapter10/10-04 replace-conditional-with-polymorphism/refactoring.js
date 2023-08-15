@@ -25,16 +25,7 @@ class Bird {
   }
 
   get plumage() {
-    switch (this.type) {
-      case "EuropeanSwallow":
-        throw new Error("Should not reach here");
-      case "AfricanSwallow":
-        throw new Error("Should not reach here");
-      case "NorwegianBlueParrot":
-        throw new Error("Should not reach here");
-      default:
-        return "unknown";
-    }
+    return "unknown";
   }
 
   get airSpeedVelocity() {
