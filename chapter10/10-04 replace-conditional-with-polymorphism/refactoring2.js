@@ -41,15 +41,8 @@ class Rating {
 
   get voyageAndHistoryLengthFactor() {
     let result = 0;
-    if (this._voyage.zone === "china" && this.hasChinaHistory) {
-      result += 3;
-      if (this._history.length > 10) result += 1;
-      if (this._voyage.length > 12) result += 1;
-      if (this._voyage.length > 18) result -= 1;
-    } else {
-      if (this._history.length > 8) result += 1;
-      if (this._voyage.length > 14) result -= 1;
-    }
+    if (this._history.length > 8) result += 1;
+    if (this._voyage.length > 14) result -= 1;
     return result;
   }
 
@@ -62,6 +55,15 @@ class ExperiencedChinaRating extends Rating {
   get captainHistoryRisk() {
     const result = super.captainHistoryRisk - 2;
     return Math.max(result, 0);
+  }
+
+  get voyageAndHistoryLengthFactor() {
+    let result = 0;
+    result += 3;
+    if (this._history.length > 10) result += 1;
+    if (this._voyage.length > 12) result += 1;
+    if (this._voyage.length > 18) result -= 1;
+    return result;
   }
 }
 
