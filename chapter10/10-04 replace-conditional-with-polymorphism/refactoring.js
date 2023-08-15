@@ -31,7 +31,7 @@ class Bird {
       case "AfricanSwallow":
         throw new Error("Should not reach here");
       case "NorwegianBlueParrot":
-        return this.voltage > 100 ? "scorched" : "beautiful";
+        throw new Error("Should not reach here");
       default:
         return "unknown";
     }
@@ -63,4 +63,8 @@ class AfricanSwallow extends Bird {
   }
 }
 
-class NorwegianBlueParrot extends Bird {}
+class NorwegianBlueParrot extends Bird {
+  get plumage() {
+    return this.voltage > 100 ? "scorched" : "beautiful";
+  }
+}
