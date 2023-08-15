@@ -1,6 +1,8 @@
 class Site {
   get customer() {
-    return this._customer;
+    return this._customer === "unknown"
+      ? new UnknownCustomer()
+      : this._customer;
   }
 }
 
@@ -22,7 +24,7 @@ class UnknownCustomer {
 }
 
 function isUnknown(arg) {
-  if (!(arg instanceof Customer || arg === "unknown"))
+  if (!(arg instanceof Customer || arg instanceof UnknownCustomer))
     throw new Error(`investigate bad value: <${arg}>`);
   return arg === "unknown";
 }
