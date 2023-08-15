@@ -47,10 +47,6 @@ class Rating {
   get historyLengthFactor() {
     return this._history.length > 8 ? 1 : 0;
   }
-
-  get hasChinaHistory() {
-    return this._history.some((v) => "china" === v.zone);
-  }
 }
 
 class ExperiencedChinaRating extends Rating {
