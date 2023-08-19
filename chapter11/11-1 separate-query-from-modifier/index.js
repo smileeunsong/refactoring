@@ -11,3 +11,5 @@ function alertForMiscreant(people) {
   }
   return "";
 }
+
+const found = alertForMiscreant(people);
