@@ -10,7 +10,7 @@ class ChargeCalculator {
   }
 
   get charge() {
-    return this.baseCharge + this._customer.taxableCharge;
+    return this.baseCharge + this._provider.connectionCharge;
   }
 }
 
